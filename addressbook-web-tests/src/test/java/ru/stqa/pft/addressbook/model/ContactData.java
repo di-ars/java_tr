@@ -57,12 +57,13 @@ public class ContactData {
         this.notes = notes;
     }
 
-    public ContactData(String firstname, String lastname, String address, String homePhone, String email) {
+    public ContactData(String firstname, String lastname, String address, String homePhone, String email, String group) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.address = address;
         this.homePhone = homePhone;
         this.email = email;
+        this.group = group;
     }
 
     public String getFirstname() {
