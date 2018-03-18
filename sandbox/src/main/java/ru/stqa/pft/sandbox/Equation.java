@@ -32,7 +32,7 @@ public class Equation {
     }
 
     public int rootNumber() {
-        return this.n;
+        return n;
     }
 
 }
