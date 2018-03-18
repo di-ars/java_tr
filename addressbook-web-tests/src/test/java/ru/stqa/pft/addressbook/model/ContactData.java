@@ -4,33 +4,33 @@ import java.awt.*;
 import java.util.Date;
 
 public class ContactData {
-    private final String firstname;
-    private final String middlename;
-    private final String lastname;
-    private final String nickname;
-    private final Image photo;
-    private final String title;
-    private final String company;
-    private final String address;
+    private String firstname;
+    private String middlename;
+    private String lastname;
+    private String nickname;
+    private Image photo;
+    private String title;
+    private String company;
+    private String address;
 
     //Telephone fields
-    private final String homePhone;
-    private final String mobilePhone;
-    private final String workPhone;
-    private final String faxPhone;
+    private String homePhone;
+    private String mobilePhone;
+    private String workPhone;
+    private String faxPhone;
 
-    private final String email;
-    private final String email2;
-    private final String email3;
-    private final String homepage;
-    private final Date birthday;
-    private final Date anniversary;
-    private final String group; //todo group not String
+    private String email;
+    private String email2;
+    private String email3;
+    private String homepage;
+    private Date birthday;
+    private Date anniversary;
+    private String group; //todo group not String
 
     //Secondary fieds
-    private final String addressSecondary;
-    private final String home;
-    private final String notes;
+    private String addressSecondary;
+    private String home;
+    private String notes;
 
     public ContactData(String firstname, String middlename, String lastname, String nickname, Image photo, String title, String company, String address, String homePhone, String mobilePhone, String workPhone, String faxPhone, String email, String email2, String email3, String homepage, Date birthday, Date anniversary, String group, String addressSecondary, String home, String notes) {
         this.firstname = firstname;
@@ -55,6 +55,14 @@ public class ContactData {
         this.addressSecondary = addressSecondary;
         this.home = home;
         this.notes = notes;
+    }
+
+    public ContactData(String firstname, String lastname, String address, String homePhone, String email) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.address = address;
+        this.homePhone = homePhone;
+        this.email = email;
     }
 
     public String getFirstname() {
