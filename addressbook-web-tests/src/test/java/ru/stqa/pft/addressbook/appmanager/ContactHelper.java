@@ -30,10 +30,6 @@ public class ContactHelper extends HelperBase {
         }
     }
 
-    public void editContact() {
-        click(By.xpath("//a/img[@title=\"Edit\"]/.."));
-    }
-
     public void selectContact() {
         click(By.name("selected[]"));
     }
