@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.Date;
 
 public class ContactData {
+    private int id;
     private String firstname;
     private String middlename;
     private String lastname;
@@ -33,6 +34,7 @@ public class ContactData {
     private String notes;
 
     public ContactData(String firstname, String middlename, String lastname, String nickname, Image photo, String title, String company, String address, String homePhone, String mobilePhone, String workPhone, String faxPhone, String email, String email2, String email3, String homepage, Date birthday, Date anniversary, String group, String addressSecondary, String home, String notes) {
+        this.id = Integer.MAX_VALUE;
         this.firstname = firstname;
         this.middlename = middlename;
         this.lastname = lastname;
@@ -58,6 +60,17 @@ public class ContactData {
     }
 
     public ContactData(String firstname, String lastname, String address, String homePhone, String email, String group) {
+        this.id = Integer.MAX_VALUE;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.address = address;
+        this.homePhone = homePhone;
+        this.email = email;
+        this.group = group;
+    }
+
+    public ContactData(int id, String firstname, String lastname, String address, String homePhone, String email, String group) {
+        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.address = address;
@@ -152,5 +165,13 @@ public class ContactData {
 
     public String getGroup() {
         return group;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
