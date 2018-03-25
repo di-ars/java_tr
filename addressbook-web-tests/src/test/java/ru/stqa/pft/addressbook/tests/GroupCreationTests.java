@@ -14,6 +14,6 @@ public class GroupCreationTests extends TestBase {
         List<GroupData> before = app.getGroupHelper().getGroupList();
         app.getGroupHelper().createGroup(new GroupData("test1", null, null));
         List<GroupData> after = app.getGroupHelper().getGroupList();
-        Assert.assertEquals(after.size(), before.size()+1,"Groups count must be enlarged at 1 after new group is added");
+        Assert.assertEquals(after.size(), before.size() + 1, "Groups count must be enlarged at 1 after new group is added");
     }
 }
