@@ -1,7 +1,10 @@
 package ru.stqa.pft.addressbook.tests;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
+
+import java.util.List;
 
 public class ContactModificationTests extends TestBase {
 
@@ -12,10 +15,14 @@ public class ContactModificationTests extends TestBase {
         if (!app.getContactHelper().isThereAContact()) {
             app.getNavigationHelper().gotoContactCreationPage();
             app.getContactHelper().createContact(contactData);
+            app.getNavigationHelper().gotoHomePage();
         }
-        app.getNavigationHelper().gotoEditContactPage();
+        List<ContactData> contactsBefore = app.getContactHelper().getContactsList();
+        app.getContactHelper().initContactModification(contactsBefore.size()-1);
         app.getContactHelper().fillContactForm(contactData, false);
         app.getContactHelper().submitContactModification();
         app.getNavigationHelper().gotoHomePage();
+        List<ContactData> contactsAfter = app.getContactHelper().getContactsList();
+        Assert.assertEquals(contactsAfter.size(), contactsBefore.size(), "Contacts count must be the same after modification");
     }
 }

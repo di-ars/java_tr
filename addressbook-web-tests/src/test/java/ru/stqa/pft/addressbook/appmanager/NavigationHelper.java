@@ -26,15 +26,6 @@ public class NavigationHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public void gotoEditContactPage() {
-        if (isElementPresent(By.tagName("h1"))
-                && wd.findElement(By.tagName("h1")).getText().equals("Edit / add address book entry")
-                && isElementPresent(By.name("Update"))) {
-            return;
-        }
-        click(By.xpath("//a/img[@title=\"Edit\"]/.."));
-    }
-
     public void gotoHomePage() {
         if (isElementPresent(By.id("maintable"))) {
             return;
