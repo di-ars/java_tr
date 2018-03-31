@@ -10,15 +10,15 @@ public class ContactDeletionTests extends TestBase {
 
     @Test
     public void testContactDeletion() {
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().homePage();
         if (!app.getContactHelper().isThereAContact()) {
-            app.getNavigationHelper().gotoContactCreationPage();
+            app.goTo().contactCreationPage();
             app.getContactHelper().createContact(new ContactData("firstname", "lastname", "address", "phone", "email", "test11"));
         }
         List<ContactData> contactsBefore = app.getContactHelper().getContactsList();
         app.getContactHelper().selectContact(contactsBefore.size() - 1);
         app.getContactHelper().deleteSelectedContacts();
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().homePage();
         List<ContactData> contactsAfter = app.getContactHelper().getContactsList();
         Assert.assertEquals(contactsAfter.size(), contactsBefore.size() - 1, "After contact deleted count of contacts must be decreased at 1");
 

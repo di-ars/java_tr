@@ -13,9 +13,9 @@ public class ContactCreationTests extends TestBase {
     public void testContactCreation() {
         ContactData contactData = new ContactData("test", "", "test", "", null, "", "", "test", "12345", "", "", "", "contact@contact.com", "", "", "", null, null, "test11", "", "", "");
         List<ContactData> contactsBefore = app.getContactHelper().getContactsList();
-        app.getNavigationHelper().gotoContactCreationPage();
+        app.goTo().contactCreationPage();
         app.getContactHelper().createContact(contactData);
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().homePage();
         List<ContactData> contactsAfter = app.getContactHelper().getContactsList();
         Assert.assertEquals(contactsAfter.size(), contactsBefore.size() + 1, "Contacts count must be enlarged at 1 after new contact created");
 

@@ -12,18 +12,18 @@ public class ContactModificationTests extends TestBase {
     @Test
     public void testContactModification() {
         ContactData contactData = new ContactData("firstname", "lastname", "address", "phone", "email", "test11");
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().homePage();
         if (!app.getContactHelper().isThereAContact()) {
-            app.getNavigationHelper().gotoContactCreationPage();
+            app.goTo().contactCreationPage();
             app.getContactHelper().createContact(contactData);
-            app.getNavigationHelper().gotoHomePage();
+            app.goTo().homePage();
         }
         ContactData newContactData = new ContactData("firstname1", "lastname1", "address1", "phone1", "email1", null);
         List<ContactData> contactsBefore = app.getContactHelper().getContactsList();
         app.getContactHelper().initContactModification(contactsBefore.size() - 1);
         app.getContactHelper().fillContactForm(newContactData, false);
         app.getContactHelper().submitContactModification();
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().homePage();
         List<ContactData> contactsAfter = app.getContactHelper().getContactsList();
         Assert.assertEquals(contactsAfter.size(), contactsBefore.size(), "Contacts count must be the same after modification");
 
