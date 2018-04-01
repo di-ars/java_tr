@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.Date;
 
 public class ContactData {
-    private int id;
+    private int id = Integer.MAX_VALUE;
     private String firstname;
     private String middlename;
     private String lastname;
@@ -32,52 +32,6 @@ public class ContactData {
     private String addressSecondary;
     private String home;
     private String notes;
-
-    public ContactData(String firstname, String middlename, String lastname, String nickname, Image photo, String title, String company, String address, String homePhone, String mobilePhone, String workPhone, String faxPhone, String email, String email2, String email3, String homepage, Date birthday, Date anniversary, String group, String addressSecondary, String home, String notes) {
-        this.id = Integer.MAX_VALUE;
-        this.firstname = firstname;
-        this.middlename = middlename;
-        this.lastname = lastname;
-        this.nickname = nickname;
-        this.photo = photo;
-        this.title = title;
-        this.company = company;
-        this.address = address;
-        this.homePhone = homePhone;
-        this.mobilePhone = mobilePhone;
-        this.workPhone = workPhone;
-        this.faxPhone = faxPhone;
-        this.email = email;
-        this.email2 = email2;
-        this.email3 = email3;
-        this.homepage = homepage;
-        this.birthday = birthday;
-        this.anniversary = anniversary;
-        this.group = group;
-        this.addressSecondary = addressSecondary;
-        this.home = home;
-        this.notes = notes;
-    }
-
-    public ContactData(String firstname, String lastname, String address, String homePhone, String email, String group) {
-        this.id = Integer.MAX_VALUE;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.address = address;
-        this.homePhone = homePhone;
-        this.email = email;
-        this.group = group;
-    }
-
-    public ContactData(int id, String firstname, String lastname, String address, String homePhone, String email, String group) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.address = address;
-        this.homePhone = homePhone;
-        this.email = email;
-        this.group = group;
-    }
 
     public String getFirstname() {
         return firstname;
@@ -171,8 +125,39 @@ public class ContactData {
         return id;
     }
 
-    public void setId(int id) {
+    public ContactData withHomePhone(String homePhone) {
+        this.homePhone = homePhone;
+        return this;
+    }
+
+    public ContactData withEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public ContactData withAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public ContactData withFirstname(String firstname) {
+        this.firstname = firstname;
+        return this;
+    }
+
+    public ContactData withLastname(String lastname) {
+        this.lastname = lastname;
+        return this;
+    }
+
+    public ContactData withGroup(String group) {
+        this.group = group;
+        return this;
+    }
+
+    public ContactData withId(int id) {
         this.id = id;
+        return this;
     }
 
     @Override

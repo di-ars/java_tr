@@ -15,6 +15,19 @@ public class ContactHelper extends HelperBase {
         super(wd);
     }
 
+
+    public void modify(int index, ContactData newContactData) {
+        initContactModification(index);
+        fillContactForm(newContactData, false);
+        submitContactModification();
+    }
+
+    public void delete(int index) {
+        selectContact(index);
+        deleteSelectedContacts();
+        openHomePage();
+    }
+
     public void submitContactCreation() {
         click(By.xpath("//div[@id='content']/form/input[21]"));
     }
@@ -55,25 +68,26 @@ public class ContactHelper extends HelperBase {
         return isElementPresent(By.name("selected[]"));
     }
 
-    public List<ContactData> getContactsList() {
+    public List<ContactData> list() {
         List<ContactData> contacts = new ArrayList<ContactData>();
         List<WebElement> elements = wd.findElements(By.name("entry"));
         for (WebElement element : elements) {
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));
             String lastName = element.findElement(By.xpath(".//td[2]")).getText();
             String firstName = element.findElement(By.xpath(".//td[3]")).getText();
-            ContactData contact = new ContactData(id, firstName, lastName, null, null, null, null);
-            contacts.add(contact);
+            contacts.add(new ContactData().withId(id).withFirstname(firstName).withLastname(lastName));
         }
         return contacts;
     }
 
     public void initContactModification(int index) {
-        /*if (isElementPresent(By.tagName("h1")) // - we must be sure that proper contact is being modified
-                && wd.findElement(By.tagName("h1")).getText().equals("Edit / add address book entry")
-                && isElementPresent(By.name("Update"))) {
-            return;
-        }*/
         wd.findElements(By.xpath("//a/img[@title=\"Edit\"]/..")).get(index).click();
+    }
+
+    public void openHomePage() {
+        if (isElementPresent(By.id("maintable"))) {
+            return;
+        }
+        click(By.linkText("home"));
     }
 }
