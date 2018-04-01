@@ -4,25 +4,21 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.Set;
 
 public class ContactCreationTests extends TestBase {
 
     @Test
     public void testContactCreation() {
         ContactData contact = new ContactData().withFirstname("test").withLastname("test").withAddress("test").withHomePhone("12345").withEmail("contact@contact.com").withGroup("test11");
-        List<ContactData> contactsBefore = app.contact().list();
+        Set<ContactData> contactsBefore = app.contact().all();
         app.goTo().contactCreationPage();
         app.contact().createContact(contact);
-        app.contact().openHomePage();
-        List<ContactData> contactsAfter = app.contact().list();
+        Set<ContactData> contactsAfter = app.contact().all();
         Assert.assertEquals(contactsAfter.size(), contactsBefore.size() + 1, "Contacts count must be enlarged at 1 after new contact created");
 
+        contact.withId(contactsAfter.stream().mapToInt((c) -> c.getId()).max().getAsInt());
         contactsBefore.add(contact);
-        Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
-        contactsBefore.sort(byId);
-        contactsAfter.sort(byId);
         Assert.assertEquals(contactsAfter, contactsBefore);
     }
 }
