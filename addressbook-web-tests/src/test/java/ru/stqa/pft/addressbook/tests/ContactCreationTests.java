@@ -11,7 +11,9 @@ public class ContactCreationTests extends TestBase {
 
     @Test
     public void testContactCreation() {
-        ContactData contact = new ContactData().withFirstname("test").withLastname("test").withAddress("test").withHomePhone("12345").withEmail("contact@contact.com").withGroup("test11");
+        ContactData contact = new ContactData()
+                .withFirstname("test").withLastname("test").withAddress("test").withHomePhone("12345")
+                .withMobilePhone("12345").withWorkPhone("12345").withEmail("contact@contact.com").withGroup("test11");
         Contacts contactsBefore = app.contact().all();
         app.goTo().contactCreationPage();
         app.contact().createContact(contact);
