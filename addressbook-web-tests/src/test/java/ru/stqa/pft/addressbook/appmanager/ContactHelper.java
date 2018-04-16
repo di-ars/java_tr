@@ -82,6 +82,7 @@ public class ContactHelper extends HelperBase {
     private Contacts contactCache = null;
 
     public Contacts all() {
+        openHomePage();
         if (contactCache != null) {
             return new Contacts(contactCache);
         }
