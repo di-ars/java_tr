@@ -54,7 +54,7 @@ public class ContactCreationTests extends TestBase {
         }
     }
 
-    @Test(dataProvider = "validContactsFromJSON")
+    @Test(dataProvider = "validContactsFromXML")
     public void testContactCreation(ContactData contact) {
         /*File photo = new File("src/test/resources/stru.png");
         ContactData contact = new ContactData()
