@@ -61,11 +61,11 @@ public class ContactCreationTests extends TestBase {
                 .withFirstname("test").withLastname("test").withAddress("test").withHomePhone("12345")
                 .withMobilePhone("12345").withWorkPhone("12345").withEmail("contact@contact.com").withGroup("test11")
                 .withPhoto(photo);*/
-        Contacts contactsBefore = app.contact().all();
+        Contacts contactsBefore = app.db().contacts();
         app.goTo().contactCreationPage();
         app.contact().createContact(contact);
         assertThat(app.contact().count(), equalTo(contactsBefore.size() + 1));
-        Contacts contactsAfter = app.contact().all();
+        Contacts contactsAfter = app.db().contacts();
         assertThat(contactsAfter, equalTo(
                 contactsBefore.withAdded(contact.withId(contactsAfter.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
     }
