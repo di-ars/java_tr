@@ -3,66 +3,113 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.*;
 import java.io.File;
 import java.util.Date;
 
 @XStreamAlias("contact")
+@Entity
+@Table(name = "addressbook")
 public class ContactData {
     @XStreamOmitField
+    @Id
+    @Column(name = "id")
     private int id = Integer.MAX_VALUE;
+
     @Expose
+    @Column(name = "firstname")
     private String firstname;
+
     @XStreamOmitField
+    @Transient
     private String middlename;
+
     @Expose
+    @Column(name = "lastname")
     private String lastname;
+
     @XStreamOmitField
+    @Transient
     private String nickname;
+
     @XStreamOmitField
-    private File photo;
+    @Column(name = "photo")
+    @Type(type = "text")
+    private String photo;
+
     @XStreamOmitField
+    @Transient
     private String title;
+
     @XStreamOmitField
+    @Transient
     private String company;
+
     @Expose
+    @Transient
     private String address;
 
     //Telephone fields
     @XStreamOmitField
+    @Transient
     private String allPhones;
+
     @Expose
+    @Column(name = "home")
+    @Type(type = "text")
     private String homePhone;
+
     @XStreamOmitField
+    @Column(name = "mobile")
+    @Type(type = "text")
     private String mobilePhone;
+
     @XStreamOmitField
+    @Column(name = "work")
+    @Type(type = "text")
     private String workPhone;
+
     @XStreamOmitField
+    @Transient
     private String faxPhone;
 
     @XStreamOmitField
+    @Transient
     private String allEmails;
     @Expose
+    @Transient
     private String email;
     @XStreamOmitField
+    @Transient
     private String email2;
     @XStreamOmitField
+    @Transient
     private String email3;
     @XStreamOmitField
+    @Transient
     private String homepage;
     @XStreamOmitField
+    @Transient
     private Date birthday;
     @XStreamOmitField
+    @Transient
     private Date anniversary;
+
     @Expose
+    @Transient
     private String group; //todo group not String
 
     //Secondary fieds
     @XStreamOmitField
+    @Transient
     private String addressSecondary;
     @XStreamOmitField
+    @Transient
     private String home;
     @XStreamOmitField
+    @Transient
     private String notes;
 
     public String getFirstname() {
@@ -154,7 +201,7 @@ public class ContactData {
     }
 
     public File getPhoto() {
-        return photo;
+        return new File(photo);
     }
 
     public String getGroup() {
@@ -232,7 +279,7 @@ public class ContactData {
     }
 
     public ContactData withPhoto(File photo) {
-        this.photo = photo;
+        this.photo = photo.getPath();
         return this;
     }
 
