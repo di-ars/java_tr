@@ -24,6 +24,7 @@ public class Contacts extends ForwardingSet<ContactData> {
 
     public Contacts withAdded(ContactData contact) {
         Contacts contacts = new Contacts(this);
+        contact.updateEmptyAttributes();
         contacts.add(contact);
         return contacts;
     }
