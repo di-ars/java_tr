@@ -3,16 +3,19 @@ package ru.stqa.pft.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +37,9 @@ public class ContactCreationTests extends TestBase {
             XStream xStream = new XStream();
             xStream.processAnnotations(ContactData.class);
             List<ContactData> contacts = (List<ContactData>) xStream.fromXML(xml);
+            for (ContactData contact : contacts) {
+                contact.groups = new HashSet<GroupData>();
+            }
             return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
         }
     }
@@ -54,6 +60,16 @@ public class ContactCreationTests extends TestBase {
         }
     }
 
+    @BeforeMethod
+    public void ensurePreconditions() {
+        Groups groups = app.db().groups();
+        if (groups.size() == 0) {
+            GroupData group = new GroupData().withName("new");
+            app.goTo().groupPage();
+            app.group().create(group);
+        }
+    }
+
     @Test(dataProvider = "validContactsFromXML")
     public void testContactCreation(ContactData contact) {
         /*File photo = new File("src/test/resources/stru.png");
@@ -61,6 +77,7 @@ public class ContactCreationTests extends TestBase {
                 .withFirstname("test").withLastname("test").withAddress("test").withHomePhone("12345")
                 .withMobilePhone("12345").withWorkPhone("12345").withEmail("contact@contact.com").withGroup("test11")
                 .withPhoto(photo);*/
+        contact.inGroup(app.db().groups().iterator().next());
         Contacts contactsBefore = app.db().contacts();
         app.goTo().contactCreationPage();
         app.contact().createContact(contact);

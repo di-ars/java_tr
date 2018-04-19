@@ -8,6 +8,8 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.io.File;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @XStreamAlias("contact")
 @Entity
@@ -100,10 +102,6 @@ public class ContactData {
     @XStreamOmitField
     @Transient
     private Date anniversary;
-
-    @Expose
-    @Transient
-    private String group;
 
     //Secondary fieds
     @XStreamOmitField
@@ -204,15 +202,16 @@ public class ContactData {
         return notes;
     }
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    public Set<GroupData> groups = new HashSet<GroupData>();
+
     public File getPhoto() {
         if (photo != null) {
             return new File(photo);
         }
         return null;
-    }
-
-    public String getGroup() {
-        return group;
     }
 
     public int getId() {
@@ -231,11 +230,6 @@ public class ContactData {
 
     public ContactData withLastname(String lastname) {
         this.lastname = lastname;
-        return this;
-    }
-
-    public ContactData withGroup(String group) {
-        this.group = group;
         return this;
     }
 
@@ -287,6 +281,10 @@ public class ContactData {
     public ContactData withPhoto(File photo) {
         this.photo = photo.getPath();
         return this;
+    }
+
+    public Groups getGroups() {
+        return new Groups(groups);
     }
 
     @Override
@@ -357,12 +355,18 @@ public class ContactData {
     }
 
     //to pass verification when empty value is loaded from DB and corresponding NULL is loaded from data file
-    public void updateEmptyAttributes() {
+    public ContactData withNotNullPhones() {
         if (this.getMobilePhone() == null) {
             this.withMobilePhone("");
         }
         if (this.getWorkPhone() == null) {
             this.withWorkPhone("");
         }
+        return this;
+    }
+
+    public ContactData inGroup(GroupData group){
+        groups.add(group);
+        return this;
     }
 }

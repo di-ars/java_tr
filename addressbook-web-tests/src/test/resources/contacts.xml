@@ -7,7 +7,6 @@
     <mobilePhone>mobilephone 0</mobilePhone>
     <workPhone>workphone 0</workPhone>
     <email>email 0</email>
-    <group>test1</group>
   </contact>
   <contact>
     <firstname>firstname 1</firstname>
@@ -17,7 +16,6 @@
     <mobilePhone>mobilephone 1</mobilePhone>
     <workPhone>workphone 1</workPhone>
     <email>email 1</email>
-    <group>test1</group>
   </contact>
   <contact>
     <firstname>firstname 2</firstname>
@@ -27,7 +25,6 @@
     <mobilePhone>mobilephone 2</mobilePhone>
     <workPhone>workphone 2</workPhone>
     <email>email 2</email>
-    <group>test1</group>
   </contact>
   <contact>
     <firstname>firstname 3</firstname>
@@ -37,6 +34,5 @@
     <mobilePhone>mobilephone 3</mobilePhone>
     <workPhone>workphone 3</workPhone>
     <email>email 3</email>
-    <group>test1</group>
   </contact>
 </list>

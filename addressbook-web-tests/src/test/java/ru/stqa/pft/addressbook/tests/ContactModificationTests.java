@@ -18,7 +18,7 @@ public class ContactModificationTests extends TestBase {
             app.goTo().contactCreationPage();
             app.contact().createContact(new ContactData()
                     .withFirstname("firstname").withLastname("lastname").withAddress("address").withHomePhone("phone")
-                    .withMobilePhone("12345").withWorkPhone("12345").withEmail("email").withGroup("test11"));
+                    .withMobilePhone("12345").withWorkPhone("12345").withEmail("email"));//.withGroup("test11"));//todo
         }
     }
 

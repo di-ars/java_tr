@@ -74,19 +74,20 @@ public class ContactDataGenerator {
             for (ContactData contact : contacts) {
                 writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s\n",
                         contact.getFirstname(), contact.getLastname(), contact.getAddress(),contact.getHomePhone(),
-                        contact.getMobilePhone(), contact.getWorkPhone(), contact.getEmail(), contact.getGroup()));
+                        contact.getMobilePhone(), contact.getWorkPhone(), contact.getEmail(), contact.getGroups().iterator().next().getName()));
             }
         }
     }
 
     private List<ContactData> generateContacts(int count) {
+
         List<ContactData> contacts = new ArrayList<ContactData>();
         for (int i = 0; i < count; i++) {
             contacts.add(new ContactData()
                     .withFirstname(String.format("firstname %s", i)).withLastname(String.format("lastname %s", i))
                     .withAddress(String.format("address %s", i)).withHomePhone(String.format("homephone %s", i))
                     .withMobilePhone(String.format("mobilephone %s", i)).withWorkPhone(String.format("workphone %s", i))
-                    .withEmail(String.format("email %s", i)).withGroup("test1"));
+                    .withEmail(String.format("email %s", i)));//.inGroup("test1"));//todo
         }
         return contacts;
     }
