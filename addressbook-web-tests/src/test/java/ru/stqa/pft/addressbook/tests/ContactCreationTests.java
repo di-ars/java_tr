@@ -56,6 +56,9 @@ public class ContactCreationTests extends TestBase {
             Gson gson = new Gson();
             List<ContactData> contacts = gson.fromJson(json.toString(), new TypeToken<List<ContactData>>() {
             }.getType()); //List<ContactData>.class
+            for (ContactData contact : contacts) {
+                contact.groups = new HashSet<GroupData>();
+            }
             return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
         }
     }
@@ -70,7 +73,7 @@ public class ContactCreationTests extends TestBase {
         }
     }
 
-    @Test(dataProvider = "validContactsFromXML")
+    @Test(dataProvider = "validContactsFromJSON")
     public void testContactCreation(ContactData contact) {
         /*File photo = new File("src/test/resources/stru.png");
         ContactData contact = new ContactData()

@@ -114,6 +114,11 @@ public class ContactData {
     @Transient
     private String notes;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    public Set<GroupData> groups = new HashSet<GroupData>();
+
     public String getFirstname() {
         return firstname;
     }
@@ -201,11 +206,6 @@ public class ContactData {
     public String getNotes() {
         return notes;
     }
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "address_in_groups",
-            joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
-    public Set<GroupData> groups = new HashSet<GroupData>();
 
     public File getPhoto() {
         if (photo != null) {
