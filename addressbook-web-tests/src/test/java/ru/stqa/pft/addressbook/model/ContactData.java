@@ -325,7 +325,8 @@ public class ContactData {
         if (addressSecondary != null ? !addressSecondary.equals(that.addressSecondary) : that.addressSecondary != null)
             return false;
         if (home != null ? !home.equals(that.home) : that.home != null) return false;
-        return notes != null ? notes.equals(that.notes) : that.notes == null;
+        if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
+        return groups != null ? groups.equals(that.groups) : that.groups == null;
     }
 
     @Override
@@ -351,6 +352,7 @@ public class ContactData {
         result = 31 * result + (addressSecondary != null ? addressSecondary.hashCode() : 0);
         result = 31 * result + (home != null ? home.hashCode() : 0);
         result = 31 * result + (notes != null ? notes.hashCode() : 0);
+        result = 31 * result + (groups != null ? groups.hashCode() : 0);
         return result;
     }
 
