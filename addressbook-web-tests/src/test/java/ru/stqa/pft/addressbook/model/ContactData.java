@@ -293,7 +293,6 @@ public class ContactData {
                 "id=" + id +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", mobilePhone='" + mobilePhone + '\'' +
                 '}';
     }
 
