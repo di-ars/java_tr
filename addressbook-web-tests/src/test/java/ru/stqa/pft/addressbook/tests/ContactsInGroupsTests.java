@@ -13,12 +13,6 @@ public class ContactsInGroupsTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions() {
-    /*    Groups groups = app.db().groups();
-        if (groups.size() == 0) {
-            GroupData group = new GroupData().withName("test_group");
-            app.goTo().groupPage();
-            app.group().create(group);
-        }*/
         if (app.db().contacts().size() == 0) {
             app.goTo().contactCreationPage();
             app.contact().createContact(new ContactData()
@@ -29,19 +23,7 @@ public class ContactsInGroupsTests extends TestBase {
 
     @Test
     public void testContactAddedToGroup() {
-       /* ContactData contact = new ContactData().withFirstname("test").withLastname("test");
-        app.goTo().contactCreationPage();
-        app.contact().createContact(contact);
-        contact.withId(app.db().contacts().stream().mapToInt((c) -> c.getId()).max().getAsInt());//set proper (max) id to created contact
-        GroupData groupToAdd = app.db().groups().iterator().next();
-        Groups groupsBefore = contact.getGroups(); //expected to be empty
-        app.contact().addContactToGroup(contact, groupToAdd);
-        contact = app.db().contacts().iterator().next();
-        Groups groupsAfter = contact.getGroups();
-        assertThat(groupsAfter, equalTo(groupsBefore.withAdded(groupToAdd)));*/
-
-
-        GroupData groupToAdd = new GroupData().withName("test_group");
+        GroupData groupToAdd = new GroupData().withName("test_group").withHeader("header").withFooter("footer");
         app.goTo().groupPage();
         app.group().create(groupToAdd);
         groupToAdd.withId(app.db().groups().stream().mapToInt((g) -> g.getId()).max().getAsInt());//set proper (max) id to created group
@@ -49,12 +31,36 @@ public class ContactsInGroupsTests extends TestBase {
         app.contact().openHomePage();
         ContactData contact = app.db().contacts().iterator().next();
         Groups groupsBefore = contact.getGroups();
-        app.contact().addContactToGroup(contact, groupToAdd);
-        contact = app.db().contacts().iterator().next();
+        app.contact().addToGroup(contact, groupToAdd);
+        contact = app.db().contactById(contact.getId());
         Groups groupsAfter = contact.getGroups();
         assertThat(groupsAfter, equalTo(groupsBefore.withAdded(groupToAdd)));
+    }
 
+    @Test
+    public void testContactDeletedFromGroup() {
+        Groups groups = app.db().groups();
+        if (groups.size() == 0) {
+            GroupData group = new GroupData().withName("test_group");
+            app.goTo().groupPage();
+            app.group().create(group);
+        }
 
-
+        GroupData groupToDeleteFrom;
+        app.contact().openHomePage();
+        ContactData contact = app.db().contacts().iterator().next();
+        Groups groupsBefore = contact.getGroups();
+        if (groupsBefore.size() == 0) {
+            groupToDeleteFrom = app.db().groups().iterator().next();
+            app.contact().addToGroup(contact, groupToDeleteFrom);
+            contact = app.db().contactById(contact.getId());
+            groupsBefore = contact.getGroups();
+        } else {
+            groupToDeleteFrom = groupsBefore.iterator().next();
+        }
+        app.contact().deleteFromGroup(contact, groupToDeleteFrom);
+        contact = app.db().contactById(contact.getId());
+        Groups groupsAfter = contact.getGroups();
+        assertThat(groupsAfter, equalTo(groupsBefore.without(groupToDeleteFrom)));
     }
 }

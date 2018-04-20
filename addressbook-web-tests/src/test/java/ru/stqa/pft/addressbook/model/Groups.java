@@ -38,4 +38,15 @@ public class Groups extends ForwardingSet<GroupData> {
         groups.remove(group);
         return groups;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Groups groupData = (Groups) o;
+
+        return delegate != null ? delegate.equals(groupData.delegate) : groupData.delegate == null;
+    }
 }

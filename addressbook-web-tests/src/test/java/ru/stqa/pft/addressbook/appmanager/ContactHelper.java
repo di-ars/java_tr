@@ -142,9 +142,17 @@ public class ContactHelper extends HelperBase {
                 .withEmail(email).withEmail2(email2).withEmail3(email3);
     }
 
-    public void addContactToGroup(ContactData contact, GroupData group) {
+    public void addToGroup(ContactData contact, GroupData group) {
         selectContactById(contact.getId());
         new Select(wd.findElement(By.name("to_group"))).selectByValue(Integer.toString(group.getId()));
         click(By.name("add"));
+        openHomePage();
+    }
+
+    public void deleteFromGroup(ContactData contact, GroupData group) {
+        new Select(wd.findElement(By.name("group"))).selectByValue(Integer.toString(group.getId()));
+        selectContactById(contact.getId());
+        click(By.name("remove"));
+        openHomePage();
     }
 }
