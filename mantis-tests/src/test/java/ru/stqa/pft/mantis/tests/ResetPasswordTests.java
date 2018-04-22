@@ -1,37 +1,38 @@
 package ru.stqa.pft.mantis.tests;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.lanwen.verbalregex.VerbalExpression;
 import ru.stqa.pft.mantis.model.MailMessage;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
-public class RegistrationTests extends TestBase {
+public class ResetPasswordTests extends TestBase {
 
-    //@BeforeMethod //must be commented for james
+    @BeforeMethod
     public void startMailServer() {
         app.mail().start();
     }
 
     @Test
-    public void testRegistration() throws IOException, MessagingException, com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException {
-        long now = System.currentTimeMillis();
+    public void testResetPassword() throws IOException, MessagingException {
+        String user = "user1524426627241";
+        String email = "user1524426627241@localhost.localdomain";
         String password = "password";
-        String user = String.format("user%s", now);
-        String email = String.format("user%s@localhost", now);
-        app.james().createUser(user, password); //must be uncommented for james
-        app.registration().start(user, email);
-        //List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000); //must be commented for james
-        List<MailMessage> mailMessages = app.james().waitForMail(user, password, 60000); //must be uncommented for james
+        String newPassword = "newpassword";
+        app.navigate().loginAs(app.getProperty("web.adminLogin"), app.getProperty("web.adminPassword"));
+        app.userActions().resetPasswordForUser(user);
+
+        List<MailMessage> mailMessages = app.mail().waitForMail(1, 10000);
         String confirmationLink = findConfirmationLink(mailMessages, email);
-        app.registration().finish(confirmationLink, password);
-        assertTrue(app.newSession().login(user, password));
+        app.userActions().confirmNewPassword(confirmationLink, newPassword);
+
+        assertTrue(app.newSession().login(user, newPassword));
     }
 
     private String findConfirmationLink(List<MailMessage> mailMessages, String email) {
@@ -40,7 +41,7 @@ public class RegistrationTests extends TestBase {
         return regex.getText(mailMessage.text);//return part of text which corresponds to regex
     }
 
-    //@AfterMethod(alwaysRun = true) //must be commented for james
+    @AfterMethod(alwaysRun = true)
     public void stopMailServer() {
         app.mail().stop();
     }

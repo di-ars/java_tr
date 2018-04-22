@@ -12,7 +12,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.MatchResult;
 
 public class ApplicationManager {
     private final Properties properties;
@@ -22,6 +21,8 @@ public class ApplicationManager {
     private FtpHelper ftp;
     private MailHelper mailHelper;
     private JamesHelper jamesHelper;
+    private UserActionsHelper userActions;
+    private NavigateHelper navigateHelper;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -88,5 +89,19 @@ public class ApplicationManager {
             jamesHelper = new JamesHelper(this);
         }
         return jamesHelper;
+    }
+
+    public UserActionsHelper userActions() {
+        if (userActions == null) {
+            userActions = new UserActionsHelper(this);
+        }
+        return userActions;
+    }
+
+    public NavigateHelper navigate() {
+        if (navigateHelper == null) {
+            navigateHelper = new NavigateHelper(this);
+        }
+        return navigateHelper;
     }
 }

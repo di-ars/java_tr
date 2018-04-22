@@ -1,11 +1,10 @@
 package ru.stqa.pft.mantis.appmanager;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import java.io.File;
+import java.util.function.Function;
 
 public class HelperBase {
     protected ApplicationManager app;
@@ -54,5 +53,4 @@ public class HelperBase {
             return false;
         }
     }
-
 }
