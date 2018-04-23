@@ -1,18 +1,21 @@
 package ru.stqa.pft.mantis.appmanager;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-
-import java.io.File;
-import java.util.function.Function;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class HelperBase {
     protected ApplicationManager app;
     protected WebDriver wd;
+    protected WebDriverWait wait;
 
     public HelperBase(ApplicationManager app) {
         this.app = app;
         this.wd = app.getDriver();
+        wait = new WebDriverWait(wd, 1);
     }
 
     protected void click(By locator) {
@@ -27,12 +30,6 @@ public class HelperBase {
                 wd.findElement(locator).clear();
                 wd.findElement(locator).sendKeys(text);
             }
-        }
-    }
-
-    protected void attach(By locator, File file) {
-        if (file != null) {
-            wd.findElement(locator).sendKeys(file.getAbsolutePath());
         }
     }
 
@@ -52,5 +49,9 @@ public class HelperBase {
         } catch (NoSuchElementException ex) {
             return false;
         }
+    }
+
+    protected void waitLocator(By locator) {
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 }
