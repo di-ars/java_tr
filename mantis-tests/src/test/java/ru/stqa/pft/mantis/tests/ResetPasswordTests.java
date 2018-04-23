@@ -15,13 +15,13 @@ import static org.testng.Assert.assertTrue;
 
 public class ResetPasswordTests extends TestBase {
 
-    @BeforeMethod
+    //@BeforeMethod
     public void startMailServer() {
         app.mail().start();
     }
 
     @Test
-    public void testResetPassword() throws IOException, MessagingException {
+    public void testResetPassword() throws IOException, MessagingException, javax.mail.MessagingException {
         List<UserData> users = app.db().users();
         UserData user = null;
         for (UserData u : users) {
@@ -31,11 +31,15 @@ public class ResetPasswordTests extends TestBase {
             }
         }
 
+        String password = "password";
         String newPassword = "newpassword";
+        app.james().deleteUser(user.getEmail());
+        app.james().createUser(user.getEmail(), password);
         app.navigate().loginAs(app.getProperty("web.adminLogin"), app.getProperty("web.adminPassword"));
         app.userActions().resetPasswordForUser(user.getUsername());
 
-        List<MailMessage> mailMessages = app.mail().waitForMail(1, 10000);
+        //List<MailMessage> mailMessages = app.mail().waitForMail(1, 10000);
+        List<MailMessage> mailMessages = app.james().waitForMail(user.getEmail(), password, 60000);
         String confirmationLink = findConfirmationLink(mailMessages, user.getEmail());
         app.userActions().confirmNewPassword(confirmationLink, newPassword);
 
@@ -48,7 +52,7 @@ public class ResetPasswordTests extends TestBase {
         return regex.getText(mailMessage.text);//return part of text which corresponds to regex
     }
 
-    @AfterMethod(alwaysRun = true)
+    //@AfterMethod(alwaysRun = true)
     public void stopMailServer() {
         app.mail().stop();
     }
