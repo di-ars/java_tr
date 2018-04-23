@@ -6,6 +6,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.lanwen.verbalregex.VerbalExpression;
 import ru.stqa.pft.mantis.model.MailMessage;
+import ru.stqa.pft.mantis.model.UserData;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,18 +22,24 @@ public class ResetPasswordTests extends TestBase {
 
     @Test
     public void testResetPassword() throws IOException, MessagingException {
-        String user = "user1524426627241";
-        String email = "user1524426627241@localhost.localdomain";
-        String password = "password";
+        List<UserData> users = app.db().users();
+        UserData user = null;
+        for (UserData u : users) {
+            if (!u.getUsername().equals("administrator")) {
+                user = u;
+                break;
+            }
+        }
+
         String newPassword = "newpassword";
         app.navigate().loginAs(app.getProperty("web.adminLogin"), app.getProperty("web.adminPassword"));
-        app.userActions().resetPasswordForUser(user);
+        app.userActions().resetPasswordForUser(user.getUsername());
 
         List<MailMessage> mailMessages = app.mail().waitForMail(1, 10000);
-        String confirmationLink = findConfirmationLink(mailMessages, email);
+        String confirmationLink = findConfirmationLink(mailMessages, user.getEmail());
         app.userActions().confirmNewPassword(confirmationLink, newPassword);
 
-        assertTrue(app.newSession().login(user, newPassword));
+        assertTrue(app.newSession().login(user.getUsername(), newPassword));
     }
 
     private String findConfirmationLink(List<MailMessage> mailMessages, String email) {
