@@ -45,7 +45,6 @@ public class SoapHelper {
                 .withSummary(createdIssueData.getSummary()).withDescription(createdIssueData.getDescription())
                 .withProject(new Project().withId(createdIssueData.getProject().getId().intValue())
                         .withName(createdIssueData.getProject().getName()));
-
     }
 
     public String getIssueStatus(int issueId) throws MalformedURLException, ServiceException, RemoteException {

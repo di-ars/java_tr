@@ -4,7 +4,6 @@ import org.openqa.selenium.remote.BrowserType;
 import org.testng.SkipException;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
 import ru.stqa.pft.mantis.appmanager.ApplicationManager;
 
 import javax.xml.rpc.ServiceException;
@@ -33,7 +32,7 @@ public class TestBase {
     }
 
     private boolean isIssueOpen(int issueId) throws RemoteException, ServiceException, MalformedURLException {
-        return (app.soap().getIssueStatus(issueId).equals("resolved"));
+        return (! app.soap().getIssueStatus(issueId).equals("resolved"));
     }
 
     public void skipIfNotFixed(int issueId) throws RemoteException, ServiceException, MalformedURLException {

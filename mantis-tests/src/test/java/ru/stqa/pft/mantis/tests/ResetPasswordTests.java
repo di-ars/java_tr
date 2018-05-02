@@ -1,13 +1,12 @@
 package ru.stqa.pft.mantis.tests;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+
 import org.testng.annotations.Test;
 import ru.lanwen.verbalregex.VerbalExpression;
 import ru.stqa.pft.mantis.model.MailMessage;
 import ru.stqa.pft.mantis.model.UserData;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,13 +14,8 @@ import static org.testng.Assert.assertTrue;
 
 public class ResetPasswordTests extends TestBase {
 
-    //@BeforeMethod
-    public void startMailServer() {
-        app.mail().start();
-    }
-
     @Test
-    public void testResetPassword() throws IOException, MessagingException, javax.mail.MessagingException {
+    public void testResetPassword() throws IOException, MessagingException {
         List<UserData> users = app.db().users();
         UserData user = null;
         for (UserData u : users) {
@@ -33,13 +27,13 @@ public class ResetPasswordTests extends TestBase {
 
         String password = "password";
         String newPassword = "newpassword";
-        app.james().deleteUser(user.getEmail());
-        app.james().createUser(user.getEmail(), password);
+        app.james().deleteUser(user.getUsername());
+        app.james().createUser(user.getUsername(), password);
+        app.james().drainEmail(user.getUsername(), password);
         app.navigate().loginAs(app.getProperty("web.adminLogin"), app.getProperty("web.adminPassword"));
         app.userActions().resetPasswordForUser(user.getUsername());
 
-        //List<MailMessage> mailMessages = app.mail().waitForMail(1, 10000);
-        List<MailMessage> mailMessages = app.james().waitForMail(user.getEmail(), password, 60000);
+        List<MailMessage> mailMessages = app.james().waitForMail(user.getUsername(), password, 60000);
         String confirmationLink = findConfirmationLink(mailMessages, user.getEmail());
         app.userActions().confirmNewPassword(confirmationLink, newPassword);
 
@@ -50,10 +44,5 @@ public class ResetPasswordTests extends TestBase {
         MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.equals(email)).findFirst().get();
         VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
         return regex.getText(mailMessage.text);//return part of text which corresponds to regex
-    }
-
-    //@AfterMethod(alwaysRun = true)
-    public void stopMailServer() {
-        app.mail().stop();
     }
 }

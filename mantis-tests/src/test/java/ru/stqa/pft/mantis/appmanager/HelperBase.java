@@ -15,7 +15,7 @@ public class HelperBase {
     public HelperBase(ApplicationManager app) {
         this.app = app;
         this.wd = app.getDriver();
-        wait = new WebDriverWait(wd, 1);
+        wait = new WebDriverWait(wd, 5);
     }
 
     protected void click(By locator) {
