@@ -7,6 +7,7 @@ import ru.stqa.pft.mantis.model.MailMessage;
 import ru.stqa.pft.mantis.model.UserData;
 
 import javax.mail.MessagingException;
+import javax.xml.rpc.ServiceException;
 import java.io.IOException;
 import java.util.List;
 
@@ -15,7 +16,8 @@ import static org.testng.Assert.assertTrue;
 public class ResetPasswordTests extends TestBase {
 
     @Test
-    public void testResetPassword() throws IOException, MessagingException {
+    public void testResetPassword() throws IOException, MessagingException, ServiceException {
+        skipIfNotFixed(0000002);
         List<UserData> users = app.db().users();
         UserData user = null;
         for (UserData u : users) {
