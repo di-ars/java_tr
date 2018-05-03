@@ -22,7 +22,7 @@ public class PointTests {
     public void testDistanceToZeroPoint() {
         Point p1 = new Point(3.0, 4.0);
         Point p2 = new Point(0.0, 0.0);
-        Assert.assertEquals(p1.distance(p2), 5.0, "Unexpected distance from point " + getPointCoordsInLine(p1) + " to point " + getPointCoordsInLine(p2) + ":");
+        Assert.assertEquals(p1.distance(p2), 5.5, "Unexpected distance from point " + getPointCoordsInLine(p1) + " to point " + getPointCoordsInLine(p2) + ":");
     }
 
     private String getPointCoordsInLine(Point p) {
