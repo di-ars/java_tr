@@ -29,6 +29,9 @@ public class ContactHelper extends HelperBase {
         submitContactModification();
         contactCache = null;
         openHomePage();
+        if (contactData.getGroups().size() != 0) {
+            addToGroup(contactData,contactData.getGroups().iterator().next());
+        }
     }
 
     public void delete(ContactData contact) {
@@ -55,6 +58,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("work"), contactData.getWorkPhone());
         type(By.name("email"), contactData.getEmail());
         attach(By.name("photo"), contactData.getPhoto());
+
 
         if (isCreation) {
             if (contactData.getGroups().size() > 0) {
